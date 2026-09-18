@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Rate — Kalkulator Harga Endorse</title>
+<meta name="description" content="Kalkulator harga endorse untuk content creator: hitung rate card berdasarkan followers, views, engagement, platform, dan jenis konten. Real-time.">
+<style>
+:root{
+  --bg:#0b0f17; --card:#131a26; --card2:#0f1520; --line:#233047;
+  --txt:#e8edf5; --mut:#93a3ba; --acc:#6ee7b7; --acc2:#38bdf8; --warn:#fbbf24;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+header{padding:28px 0 8px}
+h1{font-size:1.7rem;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);font-size:.95rem;margin-top:6px}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:18px;margin-top:20px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.card h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:14px}
+label{display:block;font-size:.85rem;color:var(--mut);margin-bottom:6px}
+input[type=number],select{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:11px 12px;font-size:1rem;outline:none;transition:border .15s}
+input[type=number]:focus,select:focus{border-color:var(--acc2)}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:480px){.row{grid-template-columns:1fr}}
+.plats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:640px){.plats{grid-template-columns:repeat(3,1fr)}}
+.plat{background:var(--card2);border:1.5px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;cursor:pointer;transition:.15s;user-select:none}
+.plat .ic{font-size:1.25rem}
+.plat .nm{font-size:.7rem;color:var(--mut);margin-top:2px}
+.plat.on{border-color:var(--acc);background:rgba(110,231,183,.08)}
+.plat.on .nm{color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card2);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.82rem;cursor:pointer;transition:.15s;user-select:none}
+.chip.on{border-color:var(--acc);color:var(--acc);background:rgba(110,231,183,.08)}
+.toggles{display:flex;flex-direction:column;gap:10px}
+.tg{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer}
+.tg .lb{font-size:.88rem}
+.tg .lb small{display:block;color:var(--mut);font-size:.72rem}
+.sw{width:44px;height:24px;background:#2a3a57;border-radius:99px;position:relative;flex-shrink:0;transition:.2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#8ea3c0;transition:.2s}
+.tg.on .sw{background:rgba(110,231,183,.35)}
+.tg.on .sw::after{left:23px;background:var(--acc)}
+.result{position:sticky;top:16px}
+.price-box{background:linear-gradient(145deg,rgba(110,231,183,.10),rgba(56,189,248,.08));border:1px solid var(--acc);border-radius:16px;padding:20px;text-align:center}
+.price-box .cap{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)}
+.big{font-size:2.3rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0 2px}
+.range{font-size:.88rem;color:var(--mut)}
+.range b{color:var(--txt)}
+.breakdown{margin-top:14px;text-align:left}
+.bd-row{display:flex;justify-content:space-between;font-size:.85rem;padding:7px 2px;border-bottom:1px dashed var(--line)}
+.bd-row:last-child{border-bottom:none}
+.bd-row .k{color:var(--mut)}
+.bd-row .v{font-weight:600}
+.tips{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px}
+.tips h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--warn);margin-bottom:8px}
+.tips li{font-size:.82rem;color:var(--mut);margin-left:16px;margin-bottom:4px}
+.copy-btn{width:100%;margin-top:14px;background:var(--acc);color:#06281c;border:none;border-radius:10px;padding:12px;font-weight:700;font-size:.92rem;cursor:pointer;transition:.15s}
+.copy-btn:active{transform:scale(.98)}
+footer{margin-top:28px;color:var(--mut);font-size:.78rem;text-align:center}
+footer p{margin-bottom:4px}
+.ratio{font-size:.72rem;color:var(--mut);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Creator <span>Rate</span></h1>
+    <div class="sub">Hitung harga endorse kamu secara real-time — followers, views, engagement, platform, dan jenis konten.</div>
+  </header>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>1 · Platform</h2>
+        <div class="plats" id="plats">
+          <div class="plat" data-p="tiktok"><div class="ic">🎵</div><div class="nm">TikTok</div></div>
+          <div class="plat" data-p="instagram"><div class="ic">📸</div><div class="nm">Instagram</div></div>
+          <div class="plat" data-p="youtube"><div class="ic">▶️</div><div class="nm">YouTube</div></div>
+          <div class="plat" data-p="facebook"><div class="ic">👥</div><div class="nm">Facebook</div></div>
+          <div class="plat" data-p="x"><div class="ic">𝕏</div><div class="nm">X / Twitter</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2 · Statistik Akun</h2>
+        <div class="row">
+          <div>
+            <label for="followers">Jumlah Followers</label>
+            <input type="number" id="followers" placeholder="contoh: 12000" min="0">
+          </div>
+          <div>
+            <label for="views">Rata-rata Views per Konten</label>
+            <input type="number" id="views" placeholder="contoh: 8500" min="0">
+            <div class="ratio">Tips: ambil rata-rata dari 5–10 konten terakhirmu</div>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="er">Engagement Rate (%)</label>
+            <input type="number" id="er" placeholder="contoh: 4.5" step="0.1" min="0" max="100">
+            <div class="ratio">ER = (likes + comments + shares) ÷ views × 100</div>
+          </div>
+          <div>
+            <label for="niche">Kategori / Niche</label>
+            <select id="niche">
+              <option value="1.0">Umum / Hiburan</option>
+              <option value="1.0">Kuliner</option>
+              <option value="1.1">Fashion</option>
+              <option value="1.2">Kecantikan / Skincare</option>
+              <option value="1.1">Gaming</option>
+              <option value="1.2">Teknologi</option>
+              <option value="1.3">Keuangan / Fintech</option>
+              <option value="1.2">Edukasi</option>
+              <option value="1.1">Kebugaran / Kesehatan</option>
+              <option value="1.2">Otomotif</option>
+              <option value="1.0">Lokal / Komunitas</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3 · Jenis Konten yang Dipesan</h2>
+        <div class="chips" id="ctypes">
+          <div class="chip on" data-c="reels">Reels / Video Pendek</div>
+          <div class="chip" data-c="story">Story</div>
+          <div class="chip" data-c="feed">Feed Post / Foto</div>
+          <div class="chip" data-c="dedicated">Video Dedicated</div>
+          <div class="chip" data-c="live">Live Streaming</div>
+          <div class="chip" data-c="ugc">UGC (tanpa posting di akunmu)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4 · Ketentuan Kerja Sama</h2>
+        <div class="row">
+          <div>
+            <label for="deliverables">Jumlah Konten yang Dipesan</label>
+            <input type="number" id="deliverables" value="1" min="1" max="50">
+          </div>
+          <div>
+            <label for="usage">Hak Pakai Konten oleh Brand</label>
+            <select id="usage">
+              <option value="1.0">Tidak ada (sekali posting)</option>
+              <option value="1.1">30 hari</option>
+              <option value="1.25">90 hari</option>
+              <option value="1.5">1 tahun</option>
+              <option value="2.0">Tanpa batas waktu (paid ads bisa)</option>
+            </select>
+          </div>
+        </div>
+        <div class="toggles" id="toggles">
+          <div class="tg" id="tg-excl" data-on="0">
+            <div class="lb">Eksklusivitas Kategori<small>Brand kamu saja di niche ini selama kontrak (umumnya +20%)</small></div>
+            <div class="sw"></div>
+          </div>
+          <div class="tg" id="tg-rush" data-on="0">
+            <div class="lb">Pengerjaan Kilat (&lt; 3 hari)<small>Biaya express, umumnya +25%</small></div>
+            <div class="sw"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="price-box">
+        <div class="cap">Estimasi Harga Endorse</div>
+        <div class="big" id="price">Rp —</div>
+        <div class="range">Rentang wajar: <b id="low">—</b> s/d <b id="high">—</b></div>
+        <div class="range" style="margin-top:4px;font-size:.8rem"><span id="perunit">—</span></div>
+        <div class="breakdown" id="bd"></div>
+        <button class="copy-btn" id="copyBtn">📋 Salin Rate Card</button>
+      </div>
+      <div class="tips">
+        <h3>💡 Tips Negotiasi</h3>
+        <ul id="tips"></ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Angka ini estimasi pasar berdasarkan rate card umum industri kreator Indonesia. Pertimbangkan biaya produksi, waktu kerja, dan nilai brand-mu saat finalisasi.</p>
+    <p>Creator Rate · dibuat untuk kreator Indonesia 🇮🇩</p>
+  </footer>
+</div>
+
+<script>
+const rupiah = n => "Rp " + Math.round(n).toLocaleString("id-ID");
+const shortRp = n => {
+  if (n >= 1e9) return "Rp " + (n/1e9).toFixed(1).replace(".", ",") + " M";
+  if (n >= 1e6) return "Rp " + (n/1e6).toFixed(1).replace(".", ",") + " jt";
+  if (n >= 1e3) return "Rp " + Math.round(n/1e3) + " rb";
+  return rupiah(n);
+};
+const state = { platform:"tiktok", ctype:"reels", excl:false, rush:false };
+
+const CPM = { tiktok:40000, instagram:60000, youtube:150000, facebook:30000, x:50000 };
+const CPM_LABEL = { tiktok:"Rp 40rb", instagram:"Rp 60rb", youtube:"Rp 150rb", facebook:"Rp 30rb", x:"Rp 50rb" };
+const CT = { reels:1.0, story:0.5, feed:0.7, dedicated:1.4, live:1.2, ugc:0.6 };
+const CT_LABEL = { reels:"Reels / Video Pendek", story:"Story", feed:"Feed Post", dedicated:"Video Dedicated", live:"Live Streaming", ugc:"UGC" };
+const PLAT_LABEL = { tiktok:"TikTok", instagram:"Instagram", youtube:"YouTube", facebook:"Facebook", x:"X / Twitter" };
+
+function tierFloor(f){
+  if (f < 1000) return 50000;
+  if (f < 10000) return 150000;
+  if (f < 50000) return 600000;
+  if (f < 100000) return 1500000;
+  if (f < 500000) return 3500000;
+  if (f < 1000000) return 8000000;
+  return 15000000;
+}
+function tierName(f){
+  if (f < 1000) return "Nano";
+  if (f < 10000) return "Micro";
+  if (f < 100000) return "Mid-tier";
+  if (f < 500000) return "Macro";
+  return "Mega";
+}
+function engMul(er){
+  if (er < 1) return 0.6;
+  if (er < 2) return 0.8;
+  if (er < 4) return 1.0;
+  if (er < 6) return 1.2;
+  if (er < 10) return 1.4;
+  return 1.6;
+}
+function engLabel(er){
+  if (er < 1) return "Sangat rendah";
+  if (er < 2) return "Rendah";
+  if (er < 4) return "Normal";
+  if (er < 6) return "Bagus";
+  if (er < 10) return "Sangat bagus";
+  return "Luar biasa";
+}
+
+function calc(){
+  const f = +document.getElementById("followers").value || 0;
+  const v = +document.getElementById("views").value || 0;
+  const erRaw = document.getElementById("er").value;
+  const er = erRaw === "" ? 3 : Math.min(+erRaw || 3, 100);
+  const niche = +document.getElementById("niche").value;
+  const usage = +document.getElementById("usage").value;
+  const n = Math.max(1, +document.getElementById("deliverables").value || 1);
+
+  const cpm = CPM[state.platform];
+  const ct = CT[state.ctype];
+  const em = engMul(er);
+  const floor = tierFloor(f) * ct;
+
+  const viewPrice = (v/1000) * cpm * ct * em * niche;
+  const base = Math.max(viewPrice, floor);
+
+  let total = base * usage * (state.excl ? 1.2 : 1) * (state.rush ? 1.25 : 1);
+  total = total * n;
+  const perUnit = total / n;
+
+  document.getElementById("price").textContent = shortRp(total);
+  document.getElementById("low").textContent = shortRp(total * 0.8);
+  document.getElementById("high").textContent = shortRp(total * 1.2);
+  document.getElementById("perunit").textContent = n > 1 ? shortRp(perUnit) + " per konten (" + n + " konten)" : "per 1 konten";
+
+  const bd = [
+    ["Platform", PLAT_LABEL[state.platform] + " (CPM " + CPM_LABEL[state.platform] + ")"],
+    ["Jenis konten", CT_LABEL[state.ctype] + " (×" + ct + ")"],
+    ["Tier kreator", tierName(f) + " — " + f.toLocaleString("id-ID") + " followers"],
+    ["Harga berbasis views", v ? shortRp(viewPrice) : "—"],
+    ["Harga minimum tier", shortRp(floor)],
+    ["Dasar harga", shortRp(base) + " (" + (viewPrice >= floor ? "views dominan" : "tier dominan") + ")"],
+    ["Engagement " + er + "% (" + engLabel(er) + ")", "×" + em],
+    ["Hak pakai", usage === 1.0 ? "Sekali posting (×1)" : "×" + usage],
+    ["Eksklusivitas", state.excl ? "Ya (×1.2)" : "Tidak"],
+    ["Pengerjaan kilat", state.rush ? "Ya (×1.25)" : "Tidak"],
+    ["Jumlah konten", n + " × " + shortRp(perUnit)]
+  ];
+  document.getElementById("bd").innerHTML = bd.map(r => '<div class="bd-row"><span class="k">' + r[0] + '</span><span class="v">' + r[1] + "</span></div>").join("");
+
+  const tips = [];
+  if (!v) tips.push("Isi rata-rata views — ini faktor terbesar dalam harga. Brand semakin jarang bayar dari angka followers saja.");
+  if (er >= 6) tips.push("Engagement rate kamu tinggi. Soroti ini saat pitch — brand rela bayar lebih untuk audiens yang benar-benar merespons.");
+  if (er && er < 2) tips.push("ER di bawah 2% melemahkan posisi nego. Pertimbangkan perbaiki konten organik dulu sebelum naikkan rate.");
+  if (state.ctype === "ugc") tips.push("Rate UGC tidak memakai akunmu sebagai media, jadi lebih murah — tapi bisa jadi langganan bulanan bila kualitasmu bagus.");
+  if (usage >= 1.5) tips.push("Hak pakai panjang berarti brand memakai kontenmu untuk iklan berbayar. Jangan ragu tagih penuh.");
+  if (f >= 10000 && f < 100000) tips.push("Di tier mid-tier, tawarkan paket 3 konten dengan diskon 10–15% — volume menutup diskon.");
+  if (n === 1) tips.push("Kreator berpengalaman biasanya memasang harga 10–20% di atas angka lemah mereka, karena ruang nego adalah bagian dari permainan.");
+  if (!tips.length) tips.push("Buat rate card resmi (PDF 1 halaman) berisi harga per jenis konten — brand serius lebih percaya kreator yang harga jelas.");
+  document.getElementById("tips").innerHTML = tips.map(t => "<li>" + t + "</li>").join("");
+}
+
+// events
+document.querySelectorAll("#plats .plat").forEach(el => el.addEventListener("click", () => {
+  document.querySelectorAll("#plats .plat").forEach(p => p.classList.remove("on"));
+  el.classList.add("on"); state.platform = el.dataset.p; calc();
+}));
+document.querySelectorAll("#ctypes .chip").forEach(el => el.addEventListener("click", () => {
+  document.querySelectorAll("#ctypes .chip").forEach(c => c.classList.remove("on"));
+  el.classList.add("on"); state.ctype = el.dataset.c; calc();
+}));
+["followers","views","er","niche","usage","deliverables"].forEach(id =>
+  document.getElementById(id).addEventListener("input", calc));
+document.getElementById("tg-excl").addEventListener("click", function(){
+  state.excl = !state.excl; this.classList.toggle("on", state.excl); calc();
+});
+document.getElementById("tg-rush").addEventListener("click", function(){
+  state.rush = !state.rush; this.classList.toggle("on", state.rush); calc();
+});
+document.getElementById("copyBtn").addEventListener("click", function(){
+  const f = +document.getElementById("followers").value || 0;
+  const v = +document.getElementById("views").value || 0;
+  const n = Math.max(1, +document.getElementById("deliverables").value || 1);
+  const txt = "RATE CARD — " + PLAT_LABEL[state.platform] + "\n" +
+    "Followers: " + f.toLocaleString("id-ID") + " (" + tierName(f) + ")\n" +
+    "Rata-rata views: " + v.toLocaleString("id-ID") + "\n" +
+    "Jenis konten: " + CT_LABEL[state.ctype] + " × " + n + "\n" +
+    "Estimasi harga: " + document.getElementById("price").textContent +
+    " (rentang " + document.getElementById("low").textContent + " – " + document.getElementById("high").textContent + ")\n" +
+    "Dihitung dengan Creator Rate";
+  const btn = this;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => { btn.textContent = "✅ Tersalin!"; setTimeout(()=>btn.textContent="📋 Salin Rate Card",1600); });
+  } else {
+    alert(txt);
+  }
+});
+calc();
+</script>
+</body>
+</html>
